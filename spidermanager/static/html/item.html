@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>云爬虫统一监控管理平台</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/bootstrap-table.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+      <script src="../js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .popover {
+            max-width: 2000px;
+        }
+    </style>
+</head>
+<body>
+<div class="vertical-center">
+    <div class="container" style="width:80%;margin-top:20px;">
+        <h4>数据目录列表：</h4>
+
+        <table data-toggle="table" data-url="/item" data-pagination="true" data-side-pagination="client">
+            <thead>
+            <tr data-classes="tableheaderbackgroud">
+                <th data-align="center" data-field="tableId">表ID</th>
+                <th data-align="center" data-field="tableName" data-formatter="formatTableName">模型表名</th>
+                <th data-align="center" data-field="spdTableName">爬虫库表名</th>
+                <th data-align="center" data-field="tableType">模型表类型</th>
+                <th data-align="center" data-field="dataSource">数据来源</th>
+                <th data-align="center" data-field="totalRecords">表记录数</th>
+                <th data-align="center" data-field="lastUpdate">更新时间</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/bootstrap-table.min.js"></script>
+<script src="../js/bootstrap-table-zh-CN.min.js"></script>
+<script src="../js/item.js"></script>
+</body>
+</html>
