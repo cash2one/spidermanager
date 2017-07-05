@@ -48,7 +48,7 @@ def table_detail():
         sql = "select %s from %s where rownum=1"%(",".join(col_name),table_name)
         for res in engine.execute(sql):
             for i in range(len(res)):
-                sampleData[col_name[i]] = res[i]
+                sampleData[col_name[i]] = str(res[i]).decode('gbk').encode('utf8')
         table_detail['tableDesc'] = tableDesc 
         table_detail['sampleData'] = sampleData 
     except sqlalchemy.exc.SQLAlchemyError,e:
