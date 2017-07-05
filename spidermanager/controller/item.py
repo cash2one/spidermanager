@@ -39,7 +39,7 @@ def table_detail():
     sampleData = {}
     col_name = []
     try:
-        for res in engine.execute("SELECT column_name, comments FROM user_col_comments where table_name = '%s'"%table_name):
+        for res in engine.execute("SELECT column_name, comments FROM user_col_comments where table_name = upper('%s')"%table_name):
             tmp = {}
             tmp['columnName']=res[0]
             tmp['columnDesc']=res[1].decode('gbk').encode('utf8')
