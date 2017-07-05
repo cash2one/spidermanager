@@ -41,7 +41,7 @@ def table_detail():
     try:
         for res in engine.execute("SELECT column_name, comments FROM user_col_comments where table_name = '%s'"%table_name):
             tmp = {}
-            tmp['columnName']=res[0].decode('gbk').encode('utf8')
+            tmp['columnName']=res[0]
             tmp['columnDesc']=res[1].decode('gbk').encode('utf8')
             col_name.append(res[0])
             tableDesc.append(tmp)
