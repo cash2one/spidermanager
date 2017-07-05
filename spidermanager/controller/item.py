@@ -19,13 +19,13 @@ def load_dict():
     try:
         for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_TYPE,DATA_SOURCE,TOTAL_RECORDS,TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss') from dict_spd_data where STATUS in ('A','P')"):
             tmp_dict = {}
-            tmp_dict['tableId'] = res[0]
-            tmp_dict['tableName'] = res[1]
-            tmp_dict['spdTableName'] = res[2]
-            tmp_dict['tableType'] = res[3]
-            tmp_dict['dataSource'] = res[4]
-            tmp_dict['totalRecords'] = res[5]
-            tmp_dict['lastUpdate'] = res[6]
+            tmp_dict['tableId'] = res[0].decode('gbk').encode('utf8')
+            tmp_dict['tableName'] = res[1].decode('gbk').encode('utf8')
+            tmp_dict['spdTableName'] = res[2].decode('gbk').encode('utf8')
+            tmp_dict['tableType'] = res[3].decode('gbk').encode('utf8')
+            tmp_dict['dataSource'] = res[4].decode('gbk').encode('utf8')
+            tmp_dict['totalRecords'] = res[5].decode('gbk').encode('utf8')
+            tmp_dict['lastUpdate'] = res[6].decode('gbk').encode('utf8')
             dicts.append(tmp_dict)
     except sqlalchemy.exc.SQLAlchemyError,e:
         print e
@@ -41,7 +41,7 @@ def table_detail():
     try:
         for res in engine.execute("SELECT column_name, comments FROM user_col_comments where table_name = '%s'"%table_name):
             tmp = {}
-            tmp['columnName']=res[0]
+            tmp['columnName']=res[0].decode('gbk').encode('utf8')
             tmp['columnDesc']=res[1].decode('gbk').encode('utf8')
             col_name.append(res[0])
             tableDesc.append(tmp)
