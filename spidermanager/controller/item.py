@@ -14,7 +14,7 @@ engine = create_engine(SHOW_DATABASE_URI, convert_unicode=True,pool_recycle=3600
 def load_dict():
     dicts = []
     try:
-        for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_TYPE,DATA_SOURCE,TOTAL_RECORDS,LAST_UPDATE from dict_spd_data where STATUS in ('A','P')"):
+        for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_TYPE,DATA_SOURCE,TOTAL_RECORDS,TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss') from dict_spd_data where STATUS in ('A','P')"):
             tmp_dict = {}
             tmp_dict['tableId'] = res[0]
             tmp_dict['tableName'] = res[1]
