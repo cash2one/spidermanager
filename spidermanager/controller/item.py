@@ -9,7 +9,10 @@ from sqlalchemy import (create_engine, MetaData, Table, Column,
                         String, Float, LargeBinary)
 import json
 
-engine = create_engine(SHOW_DATABASE_URI, convert_unicode=True,pool_recycle=3600)
+try:
+    engine = create_engine(SHOW_DATABASE_URI, convert_unicode=True,pool_recycle=3600)
+except sqlalchemy.exc.SQLAlchemyError,e:
+    print e
 @app.route("/item", methods=['GET','POST'])
 def load_dict():
     dicts = []
