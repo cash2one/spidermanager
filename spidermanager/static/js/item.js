@@ -6,6 +6,7 @@ function formatTableName(value, row, index) {
 
     return '<a data-toggle="popover" data-placement="right" data-html="true" onclick="showTaleDetail(this)" value="' + row.spdTableName + '" style="cursor:pointer ">' + value + '</a>';
 }
+
 function showTaleDetail(e) {
     var popopersel = $(".popover-content");
     var tableId = $(e).attr('value');
@@ -14,33 +15,26 @@ function showTaleDetail(e) {
     }
 
     var tableDescId = $(e).attr('value') + '_desc';
-    var sampleDataId = $(e).attr('value') + '_sample';
     $(e).popover({
         html: 'true',
-        content: '<div id="' + tableId + '" style="width:800px;height:450px;"><h4>表字段描述及样例数据</h4><div class="col-md-6"><table   id="' + tableDescId +
-        '"><thead><tr><th  data-align="center" data-field="columnName">列名</th><th data-align="center" data-field="columnDesc">列描述</th></tr></thead></table></div><div class="col-md-6"><table id="' + sampleDataId + '"><thead><tr><th data-align="left" data-field="sampleData">样例数据</th></thead></table></div>'
+        content: '<button  type="button"  class="btn btn-sm btn-primary" onclick="$(this).parent().parent().hide()" style="float: right;margin-bottom: 5px;">关闭</button><div id="' + tableId + '" style="width:600px;height:450px;"><h4>表字段描述及样例数据</h4><div class="col-md-12"><table   id="' + tableDescId +
+        '"><thead><tr><th  data-align="center" data-field="columnName">列名</th><th data-align="center" data-field="columnDesc">列描述</th><th data-align="left" data-field="sampleData">样例数据</th></tr></thead></table></div>'
     }).click(function () {
         $.getJSON("/tableDetail?tableName=" + tableId, function (data) {
-            var tableDescData = data.tableDesc;
-            var sampleData = data.sampleData;
             $("#" + tableDescId).bootstrapTable({
-                data: tableDescData,
+                data: data,
+                striped:true,
                 height: 400
             });
-            var sampleDataArry = [];
-            for (var i = 0; i < tableDescData.length; i++) {
-                var key = tableDescData[i].columnName;
-                var singleData = {};
-                singleData.sampleData = key + ":" + sampleData[key];
-                sampleDataArry.push(singleData);
-            }
-            $("#" + sampleDataId).bootstrapTable({
-                data: sampleDataArry,
-                height: 400
-            });
-        })
+        });
+
     });
 }
+/*function close() {
+    alert(1);
+    $("[data-toggle='popover']").popover('hide');
+}*/
+
 /*$('body').click(function (event) {
     var target = $(event.target);
     var popoperTri = $(target).attr('data-toggle');// 判断自己当前点击的内容

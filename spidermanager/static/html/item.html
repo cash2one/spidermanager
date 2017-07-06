@@ -27,15 +27,16 @@
 <body>
 <div class="vertical-center">
     <div class="container" style="width:80%;margin-top:20px;">
-        <h4>数据目录列表：</h4>
+        <h4>数据目录：</h4>
 
-        <table data-toggle="table" data-url="/item" data-pagination="true" data-side-pagination="client">
+        <table data-toggle="table" data-url="/item" data-striped="true" data-pagination="true" data-side-pagination="client">
             <thead>
             <tr data-classes="tableheaderbackgroud">
                 <th data-align="center" data-field="tableId">表ID</th>
                 <th data-align="center" data-field="tableName" data-formatter="formatTableName">模型表名</th>
                 <th data-align="center" data-field="spdTableName">爬虫库表名</th>
                 <th data-align="center" data-field="tableType">模型表类型</th>
+                <th data-align="center" data-field="status">状态</th>
                 <th data-align="center" data-field="dataSource">数据来源</th>
                 <th data-align="center" data-field="totalRecords">表记录数</th>
                 <th data-align="center" data-field="lastUpdate">更新时间</th>
