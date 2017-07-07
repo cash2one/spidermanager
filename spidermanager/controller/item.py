@@ -52,7 +52,7 @@ def table_detail():
                 tmp['columnDesc'] = res[1].decode('gbk').encode('utf8')
             col_name.append(res[0])
             tableDesc.append(tmp)
-        sql = "select %s from %s where rownum=2"%(",".join(col_name),table_name)
+        sql = "select %s from %s where rownum=1"%(",".join(col_name),table_name)
         for res in engine.execute(sql):
             for i in range(len(res)):
                 for j_dict in tableDesc:
