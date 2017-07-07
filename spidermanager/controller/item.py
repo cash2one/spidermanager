@@ -17,15 +17,16 @@ except sqlalchemy.exc.SQLAlchemyError,e:
 def load_dict():
     dicts = []
     try:
-        for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_TYPE,DATA_SOURCE,TOTAL_RECORDS,TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss') from dict_spd_data where STATUS in ('A','P')"):
+        for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_TYPE,DATA_SOURCE,STATUS,TOTAL_RECORDS,TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss') from dict_spd_data where STATUS in ('A','P')"):
             tmp_dict = {}
-            tmp_dict['tableId'] = res[0]
-            tmp_dict['tableName'] = res[1].decode('gbk').encode('utf8')
-            tmp_dict['spdTableName'] = res[2]
-            tmp_dict['tableType'] = res[3].decode('gbk').encode('utf8')
-            tmp_dict['dataSource'] = res[4].decode('gbk').encode('utf8')
-            tmp_dict['totalRecords'] = res[5]
-            tmp_dict['lastUpdate'] = res[6]
+            tmp_dict['tableId'] = str(res[0])
+            tmp_dict['tableName'] = str(res[1]).decode('gbk').encode('utf8')
+            tmp_dict['spdTableName'] = str(res[2])
+            tmp_dict['tableType'] = str(res[3]).decode('gbk').encode('utf8')
+            tmp_dict['dataSource'] = str(res[4]).decode('gbk').encode('utf8')
+            tmp_dict['status'] = str(res[5])
+            tmp_dict['totalRecords'] = str(res[6])
+            tmp_dict['lastUpdate'] = str(res[7])
             dicts.append(tmp_dict)
     except sqlalchemy.exc.SQLAlchemyError,e:
         print e
@@ -34,23 +35,32 @@ def load_dict():
 @app.route("/tableDetail", methods=['GET','POST'])
 def table_detail():
     table_name = request.values.get('tableName')
-    table_detail = {}
     tableDesc = []
-    sampleData = {}
     col_name = []
     try:
-        for res in engine.execute("SELECT column_name, comments FROM user_col_comments where table_name = upper('%s')"%table_name):
+        for res in engine.execute("SELECT b.column_name,b.comments\
+                                     FROM user_tab_columns a, user_col_comments b\
+                                    where a.table_name = upper('%s')\
+                                      and a.table_name = b.table_name\
+                                      and a.column_name = b.column_name\
+                                    order by a.column_id"%table_name):
             tmp = {}
-            tmp['columnName']=res[0]
-            tmp['columnDesc']=res[1].decode('gbk').encode('utf8')
+            tmp['columnName'] = res[0]
+            if res[1] == None:
+                tmp['columnDesc'] = ""
+            else:
+                tmp['columnDesc'] = res[1].decode('gbk').encode('utf8')
             col_name.append(res[0])
             tableDesc.append(tmp)
-        sql = "select %s from %s where rownum=1"%(",".join(col_name),table_name)
+        sql = "select %s from %s where rownum=2"%(",".join(col_name),table_name)
         for res in engine.execute(sql):
             for i in range(len(res)):
-                sampleData[col_name[i]] = str(res[i]).decode('gbk').encode('utf8')
-        table_detail['tableDesc'] = tableDesc 
-        table_detail['sampleData'] = sampleData 
+                for j_dict in tableDesc:
+                    if j_dict['columnName'] == col_name[i]:
+                        if res[i] == None:
+                            j_dict['sampleData'] = "NULL"
+                        else:
+                            j_dict['sampleData'] = str(res[i]).decode('gbk').encode('utf8')
     except sqlalchemy.exc.SQLAlchemyError,e:
         print e 
-    return json.dumps(table_detail,ensure_ascii=False)
+    return json.dumps(tableDesc,ensure_ascii=False)
