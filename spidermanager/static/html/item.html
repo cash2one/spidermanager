@@ -11,6 +11,7 @@
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/main.css" rel="stylesheet">
     <link href="../css/bootstrap-table.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-table-filter.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,6 +22,11 @@
     <style>
         .popover {
             max-width: 2000px;
+            height: 500px;
+        }
+
+        .fixed-table-body {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -29,7 +35,7 @@
     <div class="container" style="width:95%;margin-top:20px;">
         <h4>数据目录：</h4>
 
-        <table data-toggle="table"
+        <table id="itemlist" data-toggle="table"
                data-url="/item"
                data-show-refresh="true"
                data-page-list="[10, 50, 100, All]"
@@ -37,13 +43,14 @@
                data-show-columns="true"
                data-striped="true"
                data-pagination="true"
-               data-side-pagination="client">
+               data-side-pagination="client"
+               data-filter-control="true">
             <thead>
             <tr data-classes="tableheaderbackgroud">
                 <th data-align="center" data-field="tableId">ID</th>
                 <th data-align="center" data-field="tableName" data-formatter="formatTableName">模型描述</th>
                 <th data-align="center" data-field="spdTableName">模型名称</th>
-                <th data-align="center" data-field="tableType">模型类型</th>
+                <th data-align="center" data-field="tableType" data-filter-control="select">模型类型</th>
                 <th data-align="center" data-field="status">状态</th>
                 <th data-align="center" data-field="dataSource">数据来源</th>
                 <th data-align="center" data-field="totalRecords">记录数</th>
@@ -59,6 +66,14 @@
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/bootstrap-table.min.js"></script>
 <script src="../js/bootstrap-table-zh-CN.min.js"></script>
+<script src="../js/bootstrap-table-filter.js"></script>
+<script src="../js/colResizable-1.6.js"></script>
+<script src="../js/bootstrap-table-resizable.js"></script>
 <script src="../js/item.js"></script>
+<script>
+    $(function () {
+        $("#itemlist").colResizable();
+    })
+</script>
 </body>
 </html>

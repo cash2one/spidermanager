@@ -17,31 +17,48 @@ function showTaleDetail(e) {
     var tableDescId = $(e).attr('value') + '_desc';
     $(e).popover({
         html: 'true',
-        content: '<button  type="button"  class="btn btn-sm btn-primary" onclick="$(this).parent().parent().hide()" style="float: right;margin-bottom: 5px;">关闭</button><div id="' + tableId + '" style="width:600px;height:450px;"><h4>表字段描述及样例数据</h4><div class="col-md-12"><table   id="' + tableDescId +
-        '"><thead><tr><th data-align="center" data-field="columnDesc">列描述</th><th  data-align="center" data-field="columnName">列名</th><th data-align="center" data-field="sampleData">样例数据</th></tr></thead></table></div>'
+        content: '<button  type="button"  class="btn btn-sm btn-primary" onclick="$(this).parent().parent().hide()" style="float: right;margin-bottom: 5px;">关闭</button><div id="' + tableId + '" style="width:600px; height:450px;"><h4>表字段描述及样例数据</h4><div class="col-md-12" style="height:430px;overflow: auto"><table id="' + tableDescId + '"></table></div>'
     }).click(function () {
         $.getJSON("/tableDetail?tableName=" + tableId, function (data) {
             $("#" + tableDescId).bootstrapTable({
                 data: data,
-                striped:true,
-                height: 400
+                striped: true,
+              //  width:100,
+                //height: '400',//高度固定后，表头出现对不齐的情况
+                columns: [{
+                    field: 'columnDesc',
+                    title: '列描述',
+                    align:'center',
+                    width:'40%'
+                }, {
+                    field: 'columnName',
+                    title: '列名',
+                    align:'center',
+                    width:'30%'
+                }, {
+                    field: 'sampleData',
+                    title: '样例数据',
+                    align:'center',
+                    width:'30%'
+                },],
+                resizable:true
             });
         });
 
     });
 }
 /*function close() {
-    alert(1);
-    $("[data-toggle='popover']").popover('hide');
-}*/
+ alert(1);
+ $("[data-toggle='popover']").popover('hide');
+ }*/
 
 /*$('body').click(function (event) {
-    var target = $(event.target);
-    var popoperTri = $(target).attr('data-toggle');// 判断自己当前点击的内容
-    if ('popover' != popoperTri) {
-        $("[data-toggle='popover']").popover('hide');     // 当点击body的非弹出框相关的内容的时候，关闭所有popover
-    };
-});*/
+ var target = $(event.target);
+ var popoperTri = $(target).attr('data-toggle');// 判断自己当前点击的内容
+ if ('popover' != popoperTri) {
+ $("[data-toggle='popover']").popover('hide');     // 当点击body的非弹出框相关的内容的时候，关闭所有popover
+ };
+ });*/
 //a标签每次都要点击两次才触发popoer，没找到原因，先代码触发模拟一次点击事件
 setTimeout(function () {
     $("[data-toggle='popover']").trigger('click');
