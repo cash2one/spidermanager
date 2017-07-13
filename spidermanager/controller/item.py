@@ -17,16 +17,17 @@ except sqlalchemy.exc.SQLAlchemyError,e:
 def load_dict():
     dicts = []
     try:
-        for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_TYPE,DATA_SOURCE,STATUS,TOTAL_RECORDS,TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss') from dict_spd_data where STATUS in ('A','P')"):
+        for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_DACP,MODEL_TBL_TYPE,DATA_SOURCE,STATUS,TOTAL_RECORDS,TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss') from dict_spd_data where STATUS in ('A','P')"):
             tmp_dict = {}
             tmp_dict['tableId'] = str(res[0])
             tmp_dict['tableName'] = str(res[1]).decode('gbk').encode('utf8')
             tmp_dict['spdTableName'] = str(res[2])
-            tmp_dict['tableType'] = str(res[3]).decode('gbk').encode('utf8')
-            tmp_dict['dataSource'] = str(res[4]).decode('gbk').encode('utf8')
-            tmp_dict['status'] = str(res[5])
-            tmp_dict['totalRecords'] = str(res[6])
-            tmp_dict['lastUpdate'] = str(res[7])
+            tmp_dict['dacpTableName'] = str(res[3])
+            tmp_dict['tableType'] = str(res[4]).decode('gbk').encode('utf8')
+            tmp_dict['dataSource'] = str(res[5]).decode('gbk').encode('utf8')
+            tmp_dict['status'] = str(res[6])
+            tmp_dict['totalRecords'] = str(res[7])
+            tmp_dict['lastUpdate'] = str(res[8])
             dicts.append(tmp_dict)
     except sqlalchemy.exc.SQLAlchemyError,e:
         print e
@@ -35,8 +36,10 @@ def load_dict():
 @app.route("/tableDetail", methods=['GET','POST'])
 def table_detail():
     table_name = request.values.get('tableName')
+    tableDetail = {}
     tableDesc = []
     col_name = []
+    sampleData = []
     try:
         for res in engine.execute("SELECT b.column_name,b.comments\
                                      FROM user_tab_columns a, user_col_comments b\
@@ -52,15 +55,17 @@ def table_detail():
                 tmp['columnDesc'] = res[1].decode('gbk').encode('utf8')
             col_name.append(res[0])
             tableDesc.append(tmp)
-        sql = "select %s from %s where rownum=1"%(",".join(col_name),table_name)
+        sql = "select %s from %s where rownum<=10"%(",".join(col_name),table_name)
         for res in engine.execute(sql):
+            tmp = {}
             for i in range(len(res)):
-                for j_dict in tableDesc:
-                    if j_dict['columnName'] == col_name[i]:
-                        if res[i] == None:
-                            j_dict['sampleData'] = "NULL"
-                        else:
-                            j_dict['sampleData'] = str(res[i]).decode('gbk').encode('utf8')
+                if res[i] == None:
+                    tmp[col_name[i]] = 'NULL'
+                else:
+                    tmp[col_name[i]] = res[i].decode('gbk').encode('utf8')
+            sampleData.append(tmp)
+        tableDetail['tableDesc'] = tableDesc
+        tableDetail['sampleData'] = sampleData
     except sqlalchemy.exc.SQLAlchemyError,e:
         print e 
-    return json.dumps(tableDesc,ensure_ascii=False)
+    return json.dumps(tableDetail,ensure_ascii=False)
