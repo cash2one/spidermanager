@@ -17,7 +17,17 @@ except sqlalchemy.exc.SQLAlchemyError,e:
 def load_dict():
     dicts = []
     try:
-        for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_DACP,MODEL_TBL_TYPE,DATA_SOURCE,DECODE(STATUS,'A','待发布','P','已发布'),TOTAL_RECORDS,TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss') from dict_spd_data where STATUS in ('A','P')"):
+        for res in engine.execute(" select TBL_ID,\
+                                           MODEL_TBL_DESC,\
+                                           MODEL_TBL_SPD,\
+                                           MODEL_TBL_DACP,\
+                                           MODEL_TBL_TYPE,\
+                                           DATA_SOURCE,\
+                                           STATUS,\
+                                           TOTAL_RECORDS,\
+                                           TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss')\
+                                      from dict_spd_data\
+                                     where STATUS in ('A', 'P')"):
             tmp_dict = {}
             tmp_dict['tableId'] = str(res[0])
             tmp_dict['tableName'] = str(res[1]).decode('gbk').encode('utf8')
@@ -25,7 +35,7 @@ def load_dict():
             tmp_dict['dacpTableName'] = str(res[3])
             tmp_dict['tableType'] = str(res[4]).decode('gbk').encode('utf8')
             tmp_dict['dataSource'] = str(res[5]).decode('gbk').encode('utf8')
-            tmp_dict['status'] = str(res[6]).decode('gbk').encode('utf8')
+            tmp_dict['status'] = '已发布' if str(res[6])=='P' else '待发布' if str(res[6])=='A' else '其它'
             tmp_dict['totalRecords'] = str(res[7])
             tmp_dict['lastUpdate'] = str(res[8])
             dicts.append(tmp_dict)
