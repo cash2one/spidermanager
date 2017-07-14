@@ -17,7 +17,7 @@ except sqlalchemy.exc.SQLAlchemyError,e:
 def load_dict():
     dicts = []
     try:
-        for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_DACP,MODEL_TBL_TYPE,DATA_SOURCE,DECODE(STATUS,'A','待发布','P','已发布','其它'),TOTAL_RECORDS,TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss') from dict_spd_data where STATUS in ('A','P')"):
+        for res in engine.execute("select TBL_ID,MODEL_TBL_DESC,MODEL_TBL_SPD,MODEL_TBL_DACP,MODEL_TBL_TYPE,DATA_SOURCE,DECODE(STATUS,'A','待发布','P','已发布'),TOTAL_RECORDS,TO_CHAR(LAST_UPDATE, 'yyyy-MM-dd HH24:mm:ss') from dict_spd_data where STATUS in ('A','P')"):
             tmp_dict = {}
             tmp_dict['tableId'] = str(res[0])
             tmp_dict['tableName'] = str(res[1]).decode('gbk').encode('utf8')
