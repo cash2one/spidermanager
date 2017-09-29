@@ -2,7 +2,13 @@
 from spidermanager import app
 from spidermanager import db
 
-from spidermanager.controller import main, user, login,item
+from spidermanager.controller import main, user, login
+
+try:
+    from spidermanager.controller import item
+except:
+    pass
+
 from spidermanager.setting import spdmgrport
 
 if __name__ == "__main__":
