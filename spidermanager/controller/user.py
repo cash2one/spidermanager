@@ -105,7 +105,7 @@ def load():
 
     for user in users:
         try:
-            user.description = base64.b64decode(user.description)
+            user.description = user.description
         except Exception,e:
             print e
 
