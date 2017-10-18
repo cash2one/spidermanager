@@ -105,6 +105,7 @@ def load():
 
     for user in users:
         try:
+            print user.description
             user.description = user.description
         except Exception,e:
             print e
