@@ -105,7 +105,7 @@ def load():
 
     for user in users:
         try:
-            user.description = user.description.decode('gbk')
+            user.description = user.description.decode('gbk').encode('utf8')
         except Exception,e:
             print e
 
