@@ -9,7 +9,7 @@ def list2json(objList):
             objDict = obj.__dict__
             del objDict['_sa_instance_state']
             dictList.append(objDict)
-        return json.dumps(dictList,ensure_ascii=False)
+        return json.dumps(dictList,ensure_ascii=False,encoding='utf-8')
     else:
         return "[]"
 
