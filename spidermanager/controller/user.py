@@ -22,7 +22,7 @@ sys.setdefaultencoding('utf-8')
 def add():
 
     username = request.form.get('username')
-    description = request.form.get('description').encode('gbk')
+    description = base64.b64encode(request.form.get('description'))
     password = request.form.get('password')
     type = request.form.get('type')
     status = request.form.get('status')
@@ -56,7 +56,7 @@ def edit():
 
     username = request.form.get('username')
     user = User.query.filter_by(username=username).first()
-    user.description = request.form.get('description').encode('gbk')
+    user.description = base64.b64encode(request.form.get('description'))
     user.password = request.form.get('password')
     user.type = request.form.get('type')
     user.status = request.form.get('status')
@@ -105,8 +105,7 @@ def load():
 
     for user in users:
         try:
-            print user.description
-            user.description = user.description
+            user.description = base64.b64decode(user.description)
         except Exception,e:
             print e
 
