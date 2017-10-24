@@ -25,10 +25,10 @@
 }
 
 .loading{
-    position: absolute;
+    position: fixed;
     display: none;
-    top: 0;
-    left: 0;
+    top: 0px;
+    left: 0px;
     background-image: url("../img/loading.gif");
     background-repeat: no-repeat;
     background-size: 100% 100%;
