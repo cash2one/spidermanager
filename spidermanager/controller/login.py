@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import urllib
+
 from flask import render_template, request, redirect, url_for, session
 
 from spidermanager import app
@@ -35,7 +37,7 @@ def login_as_user(username, password):
             return render_template('login.html', message='爬虫服务异常！请致电联系 齐希 13958112099 或 金星 13023660069')
         managerhost = managerhosts[0]
         managerport = user.webuiport
-        link = "http://"+str(managerhost)+":"+str(managerport)
+        link = "http://"+username+":"+urllib.quote(user.password)+"@"+str(managerhost)+":"+str(managerport)
         return redirect(link)
     else:
         return render_template('login.html', message='用户名或密码错误！')

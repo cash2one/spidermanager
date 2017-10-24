@@ -3,6 +3,7 @@ import ConfigParser
 import base64
 import json
 import os
+import urllib
 
 from flask import request, redirect, url_for, jsonify, session
 
@@ -130,7 +131,7 @@ def getlink():
     managerhost = managerhosts[0]
     managerport = user.webuiport
     resp = {
-        "link":"http://"+str(managerhost)+":"+str(managerport),
+        "link":"http://"+username+":"+urllib.quote(user.password)+"@"+str(managerhost)+":"+str(managerport),
     }
     return json.dumps(resp)
 
