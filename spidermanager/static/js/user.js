@@ -60,6 +60,7 @@ $('#save-btn').on('click', function (e) {
 });
 
 $('#start-phantomjs-btn').on('click', function (e) {
+    $(".loading").show();
     var settings = {
       "async": true,
       "dataType" : "json",
@@ -73,8 +74,9 @@ $('#start-phantomjs-btn').on('click', function (e) {
 
     if($('#startport').val()<$('#endport').val()){
         $.ajax(settings).done(function (response) {
-    	    alert("启动成功!");
-    	    reload();
+    	    // alert("启动成功!");
+    	    $(".loading").hide();
+            reload();
         });
     }else{
         alert("端口不符合条件!");
@@ -83,6 +85,7 @@ $('#start-phantomjs-btn').on('click', function (e) {
 });
 
 $('#stop-phantomjs-btn').on('click', function (e) {
+    $(".loading").show();
     var settings = {
       "async": true,
       "dataType" : "json",
@@ -91,7 +94,8 @@ $('#stop-phantomjs-btn').on('click', function (e) {
     };
 
     $.ajax(settings).done(function (response) {
-    	alert("停止成功!");
+    	$(".loading").hide();
+        // alert("停止成功!");
     	reload();
     });
 });
@@ -204,6 +208,7 @@ $('#user-tbody').on('click','.btn-restart', function (e) {
 });
 
 function executeCommand(username,user_type,action){
+    $(".loading").show();
     var settings = {
       "async": true,
       "dataType" : "json",
@@ -217,8 +222,10 @@ function executeCommand(username,user_type,action){
 
     $.ajax(settings).done(function (response) {
         if(response.status=="ok"){
+            $(".loading").hide();
             reload();
         }else if(response.status=="error"){
+            $(".loading").hide();
             alert(response.detail);
         }
     });
