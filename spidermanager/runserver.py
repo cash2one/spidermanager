@@ -2,7 +2,7 @@
 from spidermanager import app
 from spidermanager import db
 
-from spidermanager.controller import main, user, login
+from spidermanager.controller import main, user, login,hivejob
 
 try:
     from spidermanager.controller import item

@@ -18,6 +18,7 @@ except Exception,e:
 
 
 if PROFILE == 'dev':
+    hive_db = 'spdmgr/spdmgr_1Q#@oracle-datasource/pdb_spdmgr'
     log_dir_master = "D:/programming/python/product/spidermanager/spidermanager"
     log_dir_slave = "D:/programming/python/product/spidermanager/spidermanager"
     basedir = 'D:/programming/python/product/spidermanager/spidermanager'
@@ -49,6 +50,7 @@ if PROFILE == 'dev':
     hdfs_user = "hadoop"
 
 elif PROFILE == 'vm':
+    hive_db = 'spdmgr/spdmgr_1Q#@oracle-datasource/pdb_spdmgr'
     log_dir_master = "/home/spd/spidermanager/log"
     log_dir_slave = "/home/spd/spidermanager/log"
     spdmgrport = 5888
@@ -75,6 +77,7 @@ elif PROFILE == 'vm':
     hdfs_user = "hadoop"
 
 elif PROFILE == 'test':
+    hive_db = 'pyspd_admin/pyspd_admin_1Q#@pdb_bdprd'
     log_dir_master = "/home/spd/spidermanager/log"
     log_dir_slave = "/home/spd/spidermanager/log"
     spdmgrport = 5888
@@ -123,6 +126,7 @@ elif PROFILE == 'test':
 
 
 elif PROFILE == 'prod':
+    hive_db = 'spd_admin/spd_admin_1Q#@pdb_spider'
     log_dir_master = "/data/log"
     log_dir_slave = "/srv/BigData/data1/log/univider/pyspider_log"
     spdmgrport = 5000
